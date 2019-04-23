@@ -1,0 +1,153 @@
+body,html {
+       text-align:center !important;
+    margin:0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+header {
+    margin:auto;
+    width:80%;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid black;
+}
+header h1 {
+    margin-left: 10px;
+}
+header #logo {
+    height:80px;
+    width:80px;
+    font-weight: bold !important;
+    padding-top:30px !important;
+    border-radius: 50% !important;
+    background-color: #e3a13e !important;
+    border: 1px solid #423116 !important;
+    text-align: center !important;
+    margin-right: 10px !important;
+    box-shadow: 2px 2px 8px rgb(0, 0, 0) !important;
+}
+nav {
+    margin:auto;
+    margin-top:5px;
+    width:80%;
+    text-align:center;
+    background-color: #e6f3ff;
+}
+nav ul {
+    padding:0;
+    margin:0;
+    margin-top:5px;
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+}
+nav ul li{
+    display: block;
+    margin-right: 5px;
+
+    padding: 5px;
+    background-color: #2d3e6d;
+    border: 1px solid #161e35;
+    color: white;
+    font-weight: 400;
+    transition: .3s ease;
+    border-radius: 5px;
+}
+nav ul li:hover {
+    background-color: #6584db;
+    color: black;
+    cursor: pointer;
+}
+#search {
+    margin:auto;
+    margin-top: 10px;
+    width:80%;
+    display: flex;
+   
+    justify-content: center;
+}
+#search input, #search button {
+    margin-right: 5px;
+}
+#main {
+    padding: 10px;
+    width: 80%;
+    margin:auto;
+    margin-top: 5px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+/*cards*/
+#cardheader{ 
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+}
+
+/*end cards*/
+/*tooggle switch*/
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+  }
+  
+  .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+  /* end toggle switch*/
+  /*modal*/
+  
