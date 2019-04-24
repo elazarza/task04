@@ -39,9 +39,9 @@ function populateDiv(coinarr, e = null) {
         let divCardHeader = document.createElement("div");
         divCardHeader.setAttribute("id", "cardheader");
         divCardHeader.setAttribute("class", "card-header");
-        let tempID = "c" + coinarr.id;
+        let tempID = "c" + coinarr.symbol;
         divCardHeader.innerHTML = ` ${coinarr.symbol} <label class="switch">
-        <input id="cardcheck" name="c${coinarr.id}" type="checkbox" ${checkedCoins.includes(tempID) ? 'checked' : ''}>
+        <input id="cardcheck" name="c${coinarr.symbol}" type="checkbox" ${checkedCoins.includes(tempID) ? 'checked' : ''}>
         <span class="slider round"></span>
         </label>`;
         let divCardBody = document.createElement("div");
@@ -67,10 +67,10 @@ function populateDiv(coinarr, e = null) {
             let divCardHeader = document.createElement("div");
             divCardHeader.setAttribute("id", "cardheader");
             divCardHeader.setAttribute("class", "card-header");
-            let tempID = "c" + coinarr[i].id;
+            let tempID = "c" + coinarr[i].symbol;
             divCardHeader.innerHTML = `
             ${coinarr[i].symbol} <label class="switch">
-            <input id="cardcheck" name="c${coinarr[i].id}" type="checkbox" ${checkedCoins.includes(tempID) ? 'checked' : ''}>
+            <input id="cardcheck" name="c${coinarr[i].symbol}" type="checkbox" ${checkedCoins.includes(tempID) ? 'checked' : ''}>
             <span class="slider round"></span>
             </label>`;
 
@@ -222,19 +222,15 @@ function openModal(coins) {
         }
     }
 
-
+    let div = document.querySelector(".modal-content");
+    div.innerHTML = `<span class="close">&times;</span>`;
     for (var i = 0; i < coins.length; i++) {
         let coin = coins[i].substr(1);
-        let url = `https://api.coingecko.com/api/v3/coins/${coin}`;
-        let div = document.querySelector(".modal-content");
-        div.innerHTML = `<span class="close">&times;</span>`;
-        function cb(xhr) {
-            let jsonobj = JSON.parse(xhr.responseText);
-
-            populateModal(jsonobj);
-        }
-        // method url , cllback
-        ajaxFetch('GET', url, cb);
+        let coinmodal = maincoins.find(o => o.symbol === coin);
+        
+       
+            populateModal(coinmodal);
+    
 
 
     }
@@ -250,10 +246,10 @@ function populateModal(coin) {
     let divCardHeader = document.createElement("div");
     divCardHeader.setAttribute("id", "cardheader");
     divCardHeader.setAttribute("class", "card-header");
-    let tempID = "c" + coin.id;
+    let tempID = "c" + coin.symbol;
     divCardHeader.innerHTML = `
     ${coin.symbol} <label class="switch">
-    <input id="cardcheck" name="c${coin.id}" type="checkbox" ${checkedCoins.includes(tempID) ? 'checked' : ''}>
+    <input id="cardcheck" name="c${coin.symbol}" type="checkbox" ${checkedCoins.includes(tempID) ? 'checked' : ''}>
     <span class="slider round"></span>
     </label>`;
 
