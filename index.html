@@ -5,17 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Real-Time Coins</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
 <body>
-    <div id="loader" style="display: none;">blah</div>
+    
     <header>
-        <h1>Real-time Coins</h1>
+        <h1>Real-Time Coins</h1>
         <div id="logo">Real-Time</div>
     </header>
 
@@ -25,27 +24,24 @@
             <li id="live">Live Reports</li>
             <li id="about">About</li>
         </ul>
-
     </nav>
-    <section id="search"><input class="form-control" type="search" id="Search" style="width:200px !important;" placeholder="Search...">
-        <button class="btn btn-primary mb-2" id="searchbtn" >Search</button>
+
+    <section id="search"><input class="form-control" type="search" id="Search" style="width:200px !important;"
+            placeholder="Search...">
+        <button class="btn btn-primary mb-2" id="searchbtn">Search</button><span id="srcmsg"></span>
     </section>
 
     <section id="main">
-
-       
-
     </section>
-    <div id="myModal" class="modal">
 
+    <span id="error"></span>
+
+    <div id="myModal" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
-         
-         
         </div>
-      
-      </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -55,9 +51,12 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="js/ajaxfetch.js"></script>
-        <script src="js/script.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+    <script src="js/ajaxfetch.js"></script>
+    <script src="js/script.js"></script>
+
 </body>
 
 </html>

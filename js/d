@@ -1,3 +1,0 @@
-        jsoncoinp = jsoncoinp.replace(/\r\n/g, "");
-        jsoncoinp = jsoncoinp.replace(/="http/g,"='http");
-        jsoncoinp = jsoncoinp.replace(/">/g,"'>");

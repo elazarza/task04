@@ -1,33 +1,50 @@
-let maincoins;
+let maincoins,click,stay,int, rdata={},clickCount=0;single=0;;
+// let click;
+// let stay;
+// let rdata = {};
+// let int;
+// let clickCount = 0;
+// let single = 0;
 document.onload = getAll();
 
-let srcBtn = document.querySelector("#searchbtn");
-srcBtn.addEventListener("click", searchCoin);
-let homeBtn = document.querySelector("#home");
-homeBtn.addEventListener("click", getAll);
+$("#about").click(about);
+$("#searchbtn").click(searchCoin);
+$("#home").click(getAll).click(clicked);
+$("#live").click(clicked).click(liveReport);
+
+function clicked(e) { click = e.target.innerHTML; if (click == "Live Reports" && checkedCoins == "") { stay = true; alert("Please select a coin"); } if (click == 'Live Reports') { clickCount++ } }
+
 function getAll() {
+    single=0;
+    $("#srcmsg").html("");
+    $("#Search").show();
+    $("#searchbtn").show();
+    clearInterval(int);
     let url = "https://api.coingecko.com/api/v3/coins/list";
-    let div = document.querySelector("#main");
-    div.innerHTML = "";
+    $("#main").html("").css("height", "");
     function cb(xhr) {
         let jsonobj = JSON.parse(xhr.responseText);
         maincoins = jsonobj.concat();
         let jsonobjsp = jsonobj.splice(0, 99);
         populateDiv(jsonobjsp);
     }
-    // method url , cllback
     ajaxFetch('GET', url, cb);
+    $("#error").html("");
 }
 
 function searchCoin(e) {
-    console.log(e.target);
+    $("#srcmsg").html("");
     let a = document.querySelector("#Search").value;
+    if (a == "") { alert("Enter coin's name."); return; }
     let coinName = a.toLowerCase();
     let div = document.querySelector("#main");
-    div.innerHTML ="";
     let coinsrc = maincoins.find(o => o.symbol === coinName);
-    populateDiv(coinsrc,e);
+    if (!coinsrc) { $("#srcmsg").html("No coins found.") } else {
+        div.innerHTML = "";
+        populateDiv(coinsrc, e);
+    }
 }
+
 function populateDiv(coinarr, e = null) {
     if (e !== null) {
         let div = document.querySelector("#main");
@@ -44,6 +61,7 @@ function populateDiv(coinarr, e = null) {
         <input id="cardcheck" name="c${coinarr.symbol}" type="checkbox" ${checkedCoins.includes(tempID) ? 'checked' : ''}>
         <span class="slider round"></span>
         </label>`;
+
         let divCardBody = document.createElement("div");
         divCardBody.setAttribute("class", "card-body text-primary");
         divCardBody.setAttribute("id", "cardbody");
@@ -101,17 +119,15 @@ function populateDiv(coinarr, e = null) {
 
 function getMoreInfo(e) {
     let coinID = e.target.name;
-    try { checkLSTime(coinID); } catch (e) { console.log("no such id") }
+    try { checkLSTime(coinID); } catch (e) {  }
     let pinfo = document.querySelector("#p" + coinID);
     if (pinfo.getAttribute("style") == "display:none") {
         pinfo.setAttribute("style", "display:block")
     } else { pinfo.setAttribute("style", "display:none") }
     let storageItem = localStorage.getItem(`${coinID}`);
     if (storageItem == null) {
-
         let url = "https://api.coingecko.com/api/v3/coins/" + coinID;
         function cb(xhr) {
-
             let jsoncoinp = xhr.responseText;
             let twoMinutes = new Date();
             twoMinutes.setMinutes(twoMinutes.getMinutes() + 2);
@@ -121,9 +137,7 @@ function getMoreInfo(e) {
             try {
                 localStorage.setItem(`${e.target.name}`, JSON.stringify(values));
                 setTimeout(function () { checkLSTime(coinID) }, 180000);
-
             } catch (e) { }
-
             let jsoncoin = JSON.parse(jsoncoinp);
             pinfo.innerHTML = `
             <div id="insideimg"><img src="${jsoncoin.image.small}"> </div>
@@ -131,7 +145,6 @@ function getMoreInfo(e) {
             <p>EUR: ${jsoncoin.market_data.current_price.eur}€</p>
             <p>ILS: ${jsoncoin.market_data.current_price.ils}₪</p>
         `;
-
         }
         let spanID = document.querySelector("#s" + e.target.name);
         loadingGif(spanID);
@@ -184,11 +197,9 @@ let checkCount = 0;
 let checkedCoins = [];
 function checked(e) {
     let modal = document.querySelector("#myModal");
-    if (modal.style.display == 'block') { 
+    if (modal.style.display == 'block') {
         modal.style.display = 'none';
-        console.log(e);
         let coin = document.getElementsByName(`${e.target.name}`);
-        console.log(coin);
         coin[0].checked = false;
     }
     if (checkCount == 4 && e.target.checked == true) {
@@ -197,7 +208,6 @@ function checked(e) {
         openModal(checkedCoins);
         return;
     }
-
     if (e.target.checked == true && checkCount < 5) {
         checkCount++;
         checkedCoins.push(e.target.name);
@@ -214,28 +224,21 @@ function checked(e) {
 
 function openModal(coins) {
     let modal = document.getElementById('myModal');
-
-    
     window.onclick = function (event) {
         if (event.target == modal) {
             modal.style.display = "none";
         }
     }
-
     let div = document.querySelector(".modal-content");
-    div.innerHTML = `<span class="close">&times;</span>`;
+    div.innerHTML = `<span class="close">&times;</span><p>Choose a coin to remove from the list, or exit to continue.</p>`;
     for (var i = 0; i < coins.length; i++) {
         let coin = coins[i].substr(1);
         let coinmodal = maincoins.find(o => o.symbol === coin);
-        
-       
-            populateModal(coinmodal);
-    
-
-
+        populateModal(coinmodal);
     }
     modal.style.display = "block";
 }
+
 function populateModal(coin) {
     let div = document.querySelector(".modal-content");
     let divCard = document.createElement("div");
@@ -258,13 +261,12 @@ function populateModal(coin) {
     divCardBody.setAttribute("id", "cardbody");
     divCardBody.innerHTML = `
     <h5 id="coinname" class="card-title">${coin.name}</h5>
-    `
-        ;
+    `;
 
     divCard.appendChild(divCardHeader);
     divCard.appendChild(divCardBody);
     div.appendChild(divCard);
-   
+
     let checkbox = document.querySelectorAll("#cardcheck");
     for (var i = 0; i < checkbox.length; i++) {
         checkbox[i].addEventListener("click", checked);
@@ -275,8 +277,119 @@ function populateModal(coin) {
     }
 }
 
-function showLive() {
-    let div = document.querySelector("#main");
-    div.innerHTML="";
 
+function liveReport() {
+    $("#srcmsg").html("");
+    if (stay == true) { stay = false; return }
+    $("#Search").hide();
+    $("#searchbtn").hide();
+    let div = document.querySelector("#main");
+    div.innerHTML = "";
+    div.style = "height: 300px; width: %80;";
+    let temp = checkedCoins.concat();
+    let coins1 = temp.map(a => a.toUpperCase());
+    let coins = coins1.map(b => b.substr(1));
+    for (var i = 0; i < coins.length; i++) {
+        window['dataPoints' + i] = [];
+    }
+    let data2 = [];
+    let usd;
+    var options = {
+        animationEnabled: true,
+        theme: "light2",
+        title: {
+            text: `${coins.join(",")} to USD`
+        },
+        axisX: {
+            valueFormatString: "hh:mm:ss"
+        },
+        axisY: {
+            title: "USD",
+            titleFontSize: 24,
+            includeZero: true,
+            valueFormatString: "$#.########"
+
+        },
+        toolTip: {
+            shared: true
+        },
+        legend: {
+            cursor: "pointer",
+            itemclick: toggleDataSeries
+        },
+        data: data2
+    };
+
+    function addData(data) {
+        rdata = {};
+        Object.assign(rdata, data);
+        if (data.Response == "Error") {
+            single = 1;
+            let msg = "<p style='margin:auto; color:red;'>An error occurd, cannot find the symbol:" + data.Message.slice(data.Message.indexOf("toSymbols") + 9, data.Message.length) + "Please remove it from the list.</p>";
+            setTimeout(() => $("#main").html(msg), 1000); 
+            clearInterval(int); 
+            return;
+        }
+        for (var i = 0; i < Object.keys(data).length; i++) {
+            try {
+                usd = data[Object.keys(data)[i]].USD;
+                window['dataPoints' + i].push({ x: new Date(), y: usd });
+            } catch (e) { }
+        }
+        let missing = coins.filter(arr1Item => !Object.keys(data).includes(arr1Item));
+        if (missing != 0) { $("#error").html(`<p style="color:red;margin:auto;margin-top:10px;">Notice: the coin ${missing} is not available, only the others will show</p>`) }
+    }
+    let coinsjson = coins.join(",");
+
+    function update() {
+        clearInterval(int);
+        $.getJSON(`https://min-api.cryptocompare.com/data/pricemulti?fsyms=${coinsjson}&tsyms=USD`, addData).success(() => { loadChart(); if (single == 0) { int = setTimeout(update, 2000) }; });
+
+    }
+
+    let stopit = 1;
+    update();
+    
+    function loadChart() {
+        if (stopit == 1) {
+            for (var i = 0; i < Object.keys(rdata).length; i++) {
+                data2.push({
+                    type: "spline",
+                    name: Object.keys(rdata)[i],
+                    showInLegend: true,
+                    xValueFormatString: "hh:mm:ss",
+                    yValueFormatString: "$#.#########",
+                    dataPoints: window['dataPoints' + i]
+                });
+            }
+            stopit = 2;
+        }
+        if (click !== "Home") {
+            $("#main").CanvasJSChart(options);
+        }
+    }
+
+    function toggleDataSeries(e) {
+        if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+            e.dataSeries.visible = false;
+        } else {
+            e.dataSeries.visible = true;
+        }
+        e.chart.render();
+    }
+    
+}
+
+function about() {
+    clearInterval(int);
+    $("#main").html("").css("height", "");
+    let content = `
+     <div id="aboutContent"><p><h1>Real-Time Coins project.<h1></p>
+     <p id="contenttext"><h6>Get live information about crypto currncies, and stay Updated!</h6></p>
+     <p><h3>By Elazar Zadiki.<h3></p>
+     <img src="images/giphy.gif" id="gif" />
+     <p>All rights reserved &copy;</p></div>
+     `;
+    $("#main").html("").html(content);
+    $("#error").html("");
 }
