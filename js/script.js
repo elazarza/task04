@@ -1,11 +1,6 @@
 let maincoins,click,stay,int, rdata={},clickCount=0;single=0;;
-// let click;
-// let stay;
-// let rdata = {};
-// let int;
-// let clickCount = 0;
-// let single = 0;
-document.onload = getAll();
+
+window.onload = getAll;
 
 $("#about").click(about);
 $("#searchbtn").click(searchCoin);
